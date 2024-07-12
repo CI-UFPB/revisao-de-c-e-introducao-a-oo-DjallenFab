@@ -10,10 +10,16 @@ class pessoa {
     
     public:
     pessoa (char* n, unsigned short i) {
+        set_nome(n);
+        set_idade(i);
+    }
+
+    void set_nome(char* n) {
         nome = (char*) malloc(sizeof(char)*strlen(n));
         strcpy(nome, n);
-        idade = i;
     }
+
+    void set_idade(unsigned short i) {idade = i;}
 
     char* get_nome() {return nome;}
     unsigned short get_idade() {return idade;}
@@ -24,9 +30,21 @@ class aluno: public pessoa {
     float cra;
 
     public:
-    aluno(char* n, unsigned short i, unsigned short mat, float _cra) : pessoa(n, i) {
-        matricula = mat;
-        cra = _cra;
+    aluno(char* n, unsigned short i,
+    unsigned short mat, float _cra
+    ) : pessoa(n, i) {
+        set_matricula(mat);
+        set_cra(_cra);
+    }
+
+    void set_matricula(unsigned short mat) {matricula = mat;}
+    void set_cra(float _cra) {cra = _cra;}
+
+    void mostrar_infos() {
+        cout << "Nome: " << get_nome() << endl;
+        cout << "Idade: " << get_idade() << endl;
+        cout << "Matricula: " << get_matricula() << endl;
+        cout << "CRA: " << get_cra() << endl;
     }
 
     unsigned short get_matricula() {return matricula;}
@@ -38,10 +56,15 @@ class professor: public pessoa {
     unsigned short ano_contratacao;
 
     public:
-    professor(char* n, unsigned short i, unsigned short cod, unsigned short ano) : pessoa(n, i) {
-        cod_departemento = cod;
-        ano_contratacao = ano;
+    professor(char* n, unsigned short i,
+    unsigned short cod, unsigned short ano
+    ) : pessoa(n, i) {
+        set_cod_departamento(cod);
+        set_ano_contratacao(ano);
     }
+
+    void set_cod_departamento(unsigned short cod) {cod_departemento = cod;}
+    void set_ano_contratacao(unsigned short ano){ano_contratacao = ano;}
 
     unsigned short get_cod_departamento() {return cod_departemento;}
     unsigned short get_ano_contratacao() {return ano_contratacao;}
@@ -60,15 +83,22 @@ class turma {
     turma(unsigned short tam, unsigned short s) {
         tam_turma = tam;
         sala = s;
-
     }
     unsigned short get_sala() {return sala;}
+
+    void mostrar_infos() {
+            cout << "Sala: " << sala << endl;
+            cout << "Qtd. de alunos: " << tam_turma << endl;
+            cout << "Infos. dos alunos: " << endl;
+            for (int i = 0; i < tam_turma; i++) {
+                alunos[i].mostrar_infos();
+            }
+        }
 };
 
 
 int main(void) {
-    aluno a1("Djallen", 18, 1212, 8);
-
-    cout << a1.get_matricula() << endl;
+    turma t1(3, 102);
+    t1.mostrar_infos();
     return 0;
 }
